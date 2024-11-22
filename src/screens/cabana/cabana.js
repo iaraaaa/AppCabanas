@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { getAuth } from 'firebase/auth';
 import { DarkModeContext } from '../../../DarkModeContext';
 
+
 export default function Cabana({ route, navigation }) {
   const { darkModeEnabled, toggleDarkMode } = useContext(DarkModeContext);
   const [user, setUser] = useState(null);
@@ -23,9 +24,12 @@ export default function Cabana({ route, navigation }) {
   // Función para manejar WhatsApp
   const handleWhatsApp = () => {
     if (newCabana?.phone) {
-      const phoneNumber = newCabana.phone; // Usa el número de teléfono ingresado
-      const url =' https://wa.me/${phoneNumber}?text=Necesito Asesoramiento';
-      Linking.openURL(url).catch((err) => console.error('Error al abrir WhatsApp', err));
+      const phoneNumber = newCabana.phone; // Asegúrate de que sea un número válido
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent('Necesito Asesoramiento')}`;
+  
+      Linking.openURL(url).catch((err) =>
+        console.error('Error al abrir WhatsApp', err)
+      );
     } else {
       alert('El número de teléfono no está disponible.');
     }
@@ -47,7 +51,7 @@ export default function Cabana({ route, navigation }) {
             // Aquí debes implementar la lógica de eliminación (por ejemplo, eliminar de la base de datos)
             console.log("Cabaña eliminada");
             // Después de eliminar, podrías navegar de nuevo a la pantalla de listado de cabañas
-            navigation.goBack();
+            navigation.navigate("cabana")
           },
           style: "destructive"
         }
@@ -89,34 +93,39 @@ export default function Cabana({ route, navigation }) {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {newCabana ? (
           <View style={[styles.cabanaContainer, dynamicStyles.cabanaContainer]}>
-            <Text style={[styles.title, dynamicStyles.title]}>{newCabana.name}</Text>
-            <Text style={[styles.description, dynamicStyles.description]}>{newCabana.description}</Text>
-            <Text style={[styles.info, dynamicStyles.info]}>Teléfono: {newCabana.phone}</Text>
-            <Text style={[styles.info, dynamicStyles.info]}>Capacidad máxima: {newCabana.maxCapacity} personas</Text>
-            <Text style={[styles.info, dynamicStyles.info]}>Número de habitaciones: {newCabana.numRooms}</Text>
-            <Text style={[styles.info, dynamicStyles.info]}>Precio por noche: ${newCabana.pricePerNight}</Text>
-            <Text style={[styles.info, dynamicStyles.info]}>Permite mascotas: {newCabana.allowPets ? 'Sí' : 'No'}</Text>
-
-            {/* Botón de Editar */}
+          <Text style={[styles.title, dynamicStyles.title]}>{newCabana.name}</Text>
+          <Text style={[styles.description, dynamicStyles.description]}>{newCabana.description}</Text>
+          <Text style={[styles.info, dynamicStyles.info]}>Teléfono: {newCabana.phone}</Text>
+          <Text style={[styles.info, dynamicStyles.info]}>Capacidad máxima: {newCabana.maxCapacity} personas</Text>
+          <Text style={[styles.info, dynamicStyles.info]}>Número de habitaciones: {newCabana.numRooms}</Text>
+          <Text style={[styles.info, dynamicStyles.info]}>Precio por noche: ${newCabana.pricePerNight}</Text>
+          <Text style={[styles.info, dynamicStyles.info]}>Permite mascotas: {newCabana.allowPets ? 'Sí' : 'No'}</Text>
+        
+          {/* Botón de Editar */}
+          {user && (
             <Button
               title="Editar"
               onPress={handleEdit}
             />
-
-            {/* Botón de Eliminar */}
+          )}
+        
+          {/* Botón de Eliminar */}
+          {user && (
             <Button
               title="Eliminar"
               color="red"
               onPress={handleDelete}
             />
-
-            {/* Botón de WhatsApp */}
-            <Button
-              title="Enviar por WhatsApp"
-              color="green"
-              onPress={handleWhatsApp}
-            />
-          </View>
+          )}
+        
+          {/* Botón de WhatsApp */}
+          <Button
+            title="Enviar por WhatsApp"
+            color="green"
+            onPress={handleWhatsApp}
+          />
+        </View>
+        
         ) : (
           <View style={styles.noCabanaContainer}>
             <Text style={styles.noCabanaText}>No se ha encontrado la cabaña.</Text>

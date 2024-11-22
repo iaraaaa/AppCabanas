@@ -17,28 +17,14 @@ export default function login() {
             <View style={styles.container}>
                 <LoginForm/>
                 <CrearCuenta/>
-                <RecuperarContraseña/>
+                
             </View>
             <Divider style={styles.divider}/>
         </KeyboardAwareScrollView>
     )
 }
 
-function RecuperarContraseña() {
-    const navigation = useNavigation()
 
-    return (
-        <Text 
-            style={styles.register}
-            onPress={() => navigation.navigate("recuperar-contraseña")}
-        >
-            ¿Olvidaste tu contraseña?{" "}
-            <Text style={styles.btnRegister}>
-                Recupérala
-            </Text>
-        </Text>
-    )
-} 
 
 function CrearCuenta(props) {
     const navigation = useNavigation()

@@ -16,14 +16,6 @@ export default function opcionesUser({ user, toastRef, setRelodUser }) {
     const generateOptions = () => {
         return [
             {
-                title : "Cambiar Nombres y Apellidos",
-                iconNameLeft: "account-circle",
-                iconColorLeft: "#a7bfd3",
-                iconNameRight: "chevron-right",
-                iconColorRight: "#a7bfd3",
-                onPress: () => selectedComponent("displayName")
-            },
-            {
                 title : "Cambiar Email",
                 iconNameLeft: "at",
                 iconColorLeft: "#a7bfd3",
@@ -31,14 +23,7 @@ export default function opcionesUser({ user, toastRef, setRelodUser }) {
                 iconColorRight: "#a7bfd3",
                 onPress: () => selectedComponent("email")
             },
-            {
-                title : "Cambiar Contraseña",
-                iconNameLeft: "lock-reset",
-                iconColorLeft: "#a7bfd3",
-                iconNameRight: "chevron-right",
-                iconColorRight: "#a7bfd3",
-                onPress: () => selectedComponent("password")
-            },
+    
         ]
     }
 
